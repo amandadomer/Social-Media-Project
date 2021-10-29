@@ -5,7 +5,6 @@ const { Comment, Post } = require('../../models/Posts');
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 const auth = require("../../middleware/auth");
-const Comment = require("../../models/Comment");
 
 // POST api/post/comment/:id
 // Comment on a post
@@ -42,3 +41,5 @@ router.post("/:id", [auth, [check("text", "Text is required").not().isEmpty()]],
       }
     }
   );
+
+  module.exports = router;

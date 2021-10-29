@@ -3,8 +3,7 @@ const connectDB = require("./config/db");
 
 // middleware
 const app = express();
-app.use(
-  express.json({ extended: false })
+app.use(express.json({ extended: false })
 ); /* Allows us to get data in req.body */
 
 // connect database
@@ -15,6 +14,9 @@ app.use("/api/users", require("./routes/api/users"));
 app.use("/api/auth", require("./routes/api/auth"));
 app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/post", require("./routes/api/posts"));
+app.use("/api/friends", require("./routes/api/friends"));
+app.use("/api/comment", require("./routes/api/comment"));
+
 
 // port
 const PORT = process.env.PORT || 5000;

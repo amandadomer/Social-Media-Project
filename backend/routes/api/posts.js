@@ -1,153 +1,87 @@
-const express = require("express");
-const router = express.Router();
-const { check, validationResult } = require("express-validator");
-const { Comment, Post } = require('../../models/Posts');
-const Profile = require("../../models/Profile");
+const router = require("express").Router();
+const Post = require("../../models/Posts");
 const User = require("../../models/User");
-const auth = require("../../middleware/auth");
 
-// Get api/post
-
-router.post("/", [auth, [check("text", "Text is required").not().isEmpty()]], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    try {
-      const user = await User.findById(req.user.id).select("-password");
-
-      const newPost = new Post({
-        text: req.body.text,
-        name: user.name,
-        user: req.user.id,
-      });
-
-      const post = await newPost.save();
-
-      res.json(post);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
-  }
-);
-
-//GET api/post
-//Get all posts
-
-router.get("/", auth, async (req, res) => {
+//create a post
+router.post("/", async (req, res) => {
+  const newPost = new Post(req.body);
   try {
-    const posts = await Post.find().sort({ date: -1 }); //This will sort by date. Most recent to oldest
-    res.json(posts);
+    const savedPost = await newPost.save();
+    res.status(200).json(savedPost);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json(err);
   }
 });
 
-//GET api/post/:id
-//Get post by id
-
-router.get("/:id", auth, async (req, res) => {
+//update a post
+router.put("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
-    if (!post) {
-      return res.status(404).json({ msg: "Post not found" });
+    if (post.userId === req.body.userId) {
+      await post.updateOne({ $set: req.body });
+      res.status(200).json("the post has been updated");
+    } else {
+      res.status(403).json("you can update only your post");
     }
-
-    res.json(post);
   } catch (err) {
-    console.error(err.message);
-    if (err.kind === "ObjectId") {
-      return res.status(404).json({ msg: "Post not found" });
-    }
-    res.status(500).send("Server Error");
+    res.status(500).json(err);
   }
 });
 
-//Delete api/post/:id
-
-router.delete("/:id", auth, async (req, res) => {
+//delete a post
+router.delete("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
-    if (!post) {
-      return res.status(401).json({ msg: "User not authorized" });
+    if (post.userId === req.body.userId) {
+      await post.deleteOne();
+      res.status(200).json("the post has been deleted");
+    } else {
+      res.status(403).json("you can delete only your post");
     }
-    // Check user
-    if (post.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: "User not authorized" });
-    }
-
-    await post.remove();
-
-    res.json({ msg: "Post removed" });
   } catch (err) {
-    console.error(err.message);
-    if (err.kind === "ObjectId") {
-      return res.status(404).json({ msg: "Post not found" });
-    }
-    res.status(500).send("Server Error");
+    res.status(500).json(err);
   }
 });
 
-// PUT api/post/like/:id
-// Like a post
-
-router.put("/like/:id", auth, async (req, res) => {
+//like / dislike a post
+router.put("/:id/like", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
-    // Check if the post has already been liked
-    if (
-      post.likes.filter((like) => like.user.toString() === req.user.id).length >
-      0
-    ) {
-      return res.status(400).json({ msg: "Post already liked" });
+    if (!post.likes.includes(req.body.userId)) {
+      await post.updateOne({ $push: { likes: req.body.userId } });
+      res.status(200).json("The post has been liked");
+    } else {
+      await post.updateOne({ $pull: { likes: req.body.userId } });
+      res.status(200).json("The post has been disliked");
     }
-
-    post.likes.unshift({ user: req.user.id });
-
-    await post.save();
-
-    res.json(post.likes);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json(err);
   }
 });
 
-// PUT api/post/unlike/:id
-// Unlike a post
-
-router.put("/unlike/:id", auth, async (req, res) => {
+//get a post
+router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
-    // Check if the post has already been liked
-    if (
-      post.likes.filter((like) => like.user.toString() === req.user.id)
-        .length === 0
-    ) {
-      return res.status(400).json({ msg: "Post has not yet been liked" });
-    }
-
-    //Get remove index
-
-    const removeIndex = post.likes
-      .map((like) => like.user.toString())
-      .indexOf(req.user.id);
-
-    post.likes.splice(removeIndex, 1);
-
-    await post.save();
-
-    res.json(post.likes);
+    res.status(200).json(post);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json(err);
+  }
+});
+
+//get timeline posts
+router.get("/timeline/all", async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.body.userId);
+    const userPosts = await Post.find({ userId: currentUser._id });
+    const friendPosts = await Promise.all(
+      currentUser.followings.map((friendId) => {
+        return Post.find({ userId: friendId });
+      })
+    );
+    res.json(userPosts.concat(...friendPosts))
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 

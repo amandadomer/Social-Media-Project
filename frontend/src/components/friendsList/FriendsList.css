@@ -1,11 +1,11 @@
 .friends {
     background-color: white;
-    width: 100px;
+    width: 100%;
     border-radius: 10px;
-    padding: 10px 20px 30px;
+    padding: 5px;
     margin-top: 30px;
-    margin-left: auto;
-    margin-right: auto;
+    /* margin-left: auto;
+    margin-right: auto; */
     text-align: center;
     font-size: 20px;
     border: 2px solid black;

@@ -6,10 +6,15 @@ import './Profile.css'
 
 function Profile (props) {
     return (
-        <div>
-            <NavBar/>
         <div className="container">
+            
             <div className="row">
+                <NavBar/>
+            </div>
+            <div className="row"> 
+            </div>  
+            <div className="row">
+
             <div className="col-6">
                 <FriendsList/>
             </div>
@@ -17,8 +22,8 @@ function Profile (props) {
                 <FriendRequests/>
             </div>
             </div>
-        </div>
-        </div>
+            </div>
+        
 )};
 
 export default Profile;

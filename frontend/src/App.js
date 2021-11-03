@@ -7,7 +7,8 @@ import Home from './components/home/Home';
 import SearchBar from './components/searchBar/SearchBar'
 import Login from "./components/login/Login"
 import SignUp from './components/signUp/SignUp';
-import Posts from './components/posts/Posts';
+
+import Friends from './components/friends/Friends';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
       <Landing />
       {/* <SignUp />  */}
       {/* <NavBar/>       */}
+      {/* <Home/> */}
+      {/* <Friends/>        */}
       <Router>
         <Switch>
           <Route exact path="/">

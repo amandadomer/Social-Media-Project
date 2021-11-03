@@ -4,8 +4,7 @@ import './FriendRequests.css'
 function FriendRequests() {
     return (
         <div className="friends">
-            test
-            
+            Friend Requests
             
         </div>
     )

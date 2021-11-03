@@ -7,17 +7,16 @@ import Home from './components/home/Home';
 import SearchBar from './components/searchBar/SearchBar'
 import Login from "./components/login/Login"
 import SignUp from './components/signUp/SignUp';
-
-import Friends from './components/friends/Friends';
+import Profile from './components/profile/Profile';
 
 function App() {
   return (
     <div className="App">
-      <Landing />
+      {/* <Landing /> */}
       {/* <SignUp />  */}
       {/* <NavBar/>       */}
       {/* <Home/> */}
-      {/* <Friends/>        */}
+      <Profile/>       
       <Router>
         <Switch>
           <Route exact path="/">

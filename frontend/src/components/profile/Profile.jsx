@@ -1,10 +1,10 @@
 import React from 'react'
 import FriendsList from '../friendsList/FriendsList';
 import NavBar from '../navBar/NavBar';
-import './Friends.css'
 import FriendRequests from '../friendRequests/FriendRequests';
+import './Profile.css'
 
-function Friends() {
+function Profile (props) {
     return (
         <div>
             <NavBar/>
@@ -14,10 +14,11 @@ function Friends() {
                 <FriendsList/>
             </div>
             <div className="col-6">
-                 <FriendRequests/>
+                <FriendRequests/>
             </div>
             </div>
         </div>
         </div>
 )};
-export default Friends;
+
+export default Profile;

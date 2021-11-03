@@ -1,10 +1,10 @@
 import React from 'react'
 import './FriendsList.css'
 
-function FriendsList() {
+function FriendsList(props) {
     return (
         <div className="friends">
-            test
+            Your Friends
         </div>
     )
 }

@@ -21,6 +21,7 @@ function NavBar(props) {
                             <li className="nav-item">
                                 <a className="nav-link text-dark" href="#">Friends</a>
                             </li>
+                            
                         </ul>
                         <SearchBar />
                     </div>

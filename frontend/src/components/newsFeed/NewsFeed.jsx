@@ -2,25 +2,24 @@ import React from 'react'
 import NavBar from '../navBar/NavBar';
 import Post from '../post/Post';
 import Feed from '../feed/Feed';
-import RightBar from '../rightBar/RightBar';
-import './Home.css'
+import './NewsFeed.css'
 
-function Home () {
+function NewsFeed () {
     return (
         <div>
             <NavBar/>
         <div className="container">
             <div className="row">
-            <div className="col-8">
+            <div className="col-12">
                 <Post/>
                 <Feed/>
-            </div>
-            <div className="col-4">
-                <RightBar/>
-            </div>
-            </div>
+                <Feed/>
+                <Feed/>
+                <Feed/>
         </div>
+            </div>
+            </div>
         </div>
 )};
 
-export default Home;
+export default NewsFeed;

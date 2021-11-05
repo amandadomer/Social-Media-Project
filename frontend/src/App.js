@@ -8,7 +8,7 @@ import SearchBar from './components/searchBar/SearchBar'
 import Login from "./components/login/Login"
 import SignUp from './components/signUp/SignUp';
 import Profile from './components/profile/Profile';
-import SearchResults from './searchResults/SearchResults';
+import AllUsers from './components/allUsers/AllUsers';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
       {/* <SignUp />  */}
       {/* <NavBar/>       */}
       {/* <NewsFeed/> */}
-      {/* <SearchResults/> */}
+      <AllUsers/>
       {/* <Profile/>        */}
       <Router>
         <Switch>

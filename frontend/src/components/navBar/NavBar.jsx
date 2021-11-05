@@ -1,8 +1,7 @@
 import React from 'react';
-import SearchBar from '../searchBar/SearchBar';
 import './NavBar.css'
 
-function NavBar(props) {
+function NavBar() {
     return (
         <div className="navBar text-dark">
             <nav className="navbar navbar-expand-lg">
@@ -21,9 +20,11 @@ function NavBar(props) {
                             <li className="nav-item">
                                 <a className="nav-link text-dark" href="#">Friends</a>
                             </li>
+                            <li className="nav-item">
+                                <a className="nav-link text-dark" href="#">All Users</a>
+                            </li>
                             
                         </ul>
-                        <SearchBar />
                     </div>
             </nav>     
         </div>

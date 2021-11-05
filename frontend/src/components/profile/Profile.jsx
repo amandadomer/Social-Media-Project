@@ -30,7 +30,7 @@ function Profile (props) {
                 <FriendRequests/>
             </div>
             </div>
-            </div>
+        </div>
 )};
 
 export default Profile;

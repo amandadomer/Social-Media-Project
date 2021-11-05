@@ -7,7 +7,7 @@ function AllUsers(props) {
     const [users, setUsers] = useState([]);
 
     useEffect (() => {
-        axios.get('http://localhost:3001/api/profile') 
+        axios.get('http://localhost:3000/api/profile') 
         .then(response => setUsers(response.data))
         .then(response => console.log(response))
     },[]);
@@ -20,7 +20,7 @@ function AllUsers(props) {
                     {users && users.map((el) => {
                         return(
                             <li>
-                                {el.user.name}
+                                {el.user.name} 
                             </li>
                         )
                     } 

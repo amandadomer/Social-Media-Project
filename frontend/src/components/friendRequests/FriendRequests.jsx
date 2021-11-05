@@ -6,8 +6,6 @@ function FriendRequests() {
         <div className="friends">
             Friend Requests
 
-            
-            
         </div>
     )
 }
